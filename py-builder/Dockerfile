@@ -1,4 +1,4 @@
-ARG VERSION=1.0.1
+ARG VERSION=1.0.2
 FROM ubuntu:20.04 AS builder
 
 LABEL \
@@ -21,4 +21,3 @@ RUN apt-get update \
 
 # По умолчанию обеспечиваем доступ к shell для отладки
 CMD ["bash"]
-
