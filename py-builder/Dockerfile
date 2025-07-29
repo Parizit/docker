@@ -1,9 +1,10 @@
 ARG VERSION=1.0.2
+ARG BUILD_DATE
 FROM ubuntu:20.04 AS builder
 
 LABEL \
   org.opencontainers.image.version="${VERSION}" \
-  org.opencontainers.image.created="${BUILD_DATE:-$(date --iso-8601=seconds)}"
+  org.opencontainers.image.created="${BUILD_DATE}"
 
 # Устанавливаем системные зависимости для сборки и binutils (objdump)
 RUN apt-get update \
