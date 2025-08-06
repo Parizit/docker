@@ -1,4 +1,4 @@
-ARG VERSION=1.0.2
+ARG VERSION=1.0.3
 ARG BUILD_DATE
 FROM ubuntu:20.04 AS builder
 
@@ -11,7 +11,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
          zip \
          python3-pip python3-dev \
-         binutils \
+         binutils libgl1 \
     # Обновляем pip и устанавливаем инструменты без кеша
     && pip3 install --no-cache-dir --upgrade pip \
     && pip3 install --no-cache-dir \
