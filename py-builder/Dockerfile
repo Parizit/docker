@@ -1,7 +1,8 @@
 ARG VERSION=1.1.0
 ARG BUILD_DATE
+ARG PYTHON_VERSION=3.8
 
-FROM python:3.8-slim AS builder
+FROM python:${PYTHON_VERSION}-slim-bullseye AS builder
 
 ARG VERSION
 ARG BUILD_DATE
@@ -17,9 +18,9 @@ ENV PYTHONUNBUFFERED=1 \
 
 # Устанавливаем системные зависимости для сборки и binutils (objdump)
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-         zip binutils \
-    && rm -rf /var/lib/apt/lists/*
+ && apt-get install -y --no-install-recommends \
+      zip binutils \
+ && rm -rf /var/lib/apt/lists/*
 
 # Обновляем pip и ставим инструменты
 RUN pip install --no-cache-dir --upgrade pip \
