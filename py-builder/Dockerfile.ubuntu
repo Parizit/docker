@@ -1,0 +1,33 @@
+ARG VERSION=3.0.0
+ARG BUILD_DATE
+ARG UBUNTU_VERSION=20.04
+
+FROM ubuntu:${UBUNTU_VERSION} AS builder
+
+ARG VERSION
+ARG BUILD_DATE
+ARG UBUNTU_VERSION
+
+LABEL \
+  org.opencontainers.image.version="${VERSION}" \
+  org.opencontainers.image.created="${BUILD_DATE}" \
+  org.opencontainers.image.base.name="ubuntu:${UBUNTU_VERSION}"
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    DEBIAN_FRONTEND=noninteractive
+
+# Устанавливаем системные зависимости для сборки и binutils (objdump)
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      zip binutils python3-pip python3-dev \
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Обновляем pip и ставим инструменты
+RUN pip3 install --no-cache-dir --break-system-packages pyinstaller pyarmor \
+    && rm -rf /root/.cache/pip
+
+COPY gen_metadata.py /tools/gen_metadata.py
+
+CMD ["bash"]
